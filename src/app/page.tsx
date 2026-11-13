@@ -148,7 +148,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t border-slate-800/80 py-8 px-6 text-center text-xs text-slate-500">
-        <p>© {new Date().getFullYear()} CloudLaunch Demo. Designed for Next.js & Vercel deployment.</p>
+        <p>© 2026 CloudLaunch Demo. Designed for Next.js & Vercel deployment.</p>
       </footer>
     </div>
   );
