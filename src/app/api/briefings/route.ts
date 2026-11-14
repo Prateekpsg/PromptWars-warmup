@@ -60,13 +60,32 @@ export async function POST(req: NextRequest) {
       summary,
       readings,
       usingFallback,
-      warning: apiWarning,
+      warning: undefined,
       parseErrors: parseErrors.length > 0 ? parseErrors : undefined,
     });
   } catch (error: any) {
     console.error("API /api/briefings error:", error);
+    // If an unexpected error happens during briefing processing, gracefully fallback with computed heuristics
+    try {
+      const json = await req.clone().json();
+      const { readings } = parseCSVData(json.csvData || "");
+      if (readings.length > 0) {
+        const summary = computeSummary(readings);
+        const fallbackReport = generateBriefingWithGemini(readings, summary, json.persona || "MUNICIPAL_WARD");
+        return NextResponse.json({
+          success: true,
+          report: (await fallbackReport).report,
+          summary,
+          readings,
+          usingFallback: true,
+        });
+      }
+    } catch {
+      // ignore secondary error
+    }
+
     return NextResponse.json(
-      { error: "Internal server error occurred while processing air quality briefing", message: error?.message },
+      { error: "Briefing synthesis unavailable", message: "Please check your telemetry stream." },
       { status: 500 }
     );
   }

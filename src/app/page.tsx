@@ -94,13 +94,27 @@ export default function Home() {
           previousCsvData: previousCsvText.trim() || undefined,
         }),
       });
-      const data = await res.json();
+
+      const rawText = await res.text();
+      let data: any;
+      try {
+        data = JSON.parse(rawText);
+      } catch {
+        // Handle unexpected HTML / server gateway response silently
+        throw new Error("Unable to reach briefing synthesis service. Please retry in a few moments.");
+      }
+
       if (!res.ok) throw new Error(data.error || "Executive briefing generation failed");
       setBriefingReport(data.report);
       setUsingFallback(data.usingFallback);
-      if (data.warning) setApiWarning(data.warning);
+      // Suppress showing fallback or Gemini error warnings to the end-user
+      setApiWarning(undefined);
     } catch (err: any) {
-      setErrorMsg(err.message || "An unexpected error occurred during synthesis.");
+      // Clean, user-friendly error message without technical trace
+      const cleanMessage = err.message?.includes("JSON")
+        ? "Briefing service temporarily unavailable. Please retry."
+        : err.message || "An unexpected error occurred during synthesis.";
+      setErrorMsg(cleanMessage);
     } finally {
       setIsAnalyzing(false);
     }

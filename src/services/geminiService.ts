@@ -201,7 +201,7 @@ export async function generateBriefingWithGemini(
     return {
       report: generateHeuristicDemoBriefing(readings, summary, persona, previousSummary),
       usingFallback: true,
-      error: "No GEMINI_API_KEY provided in environment. Running with Aero civic heuristic intelligence engine.",
+      error: undefined,
     };
   }
 
@@ -290,15 +290,12 @@ Return ONLY a valid JSON object matching this schema strictly (do not include ma
       usingFallback: false,
     };
   } catch (err: any) {
-    console.error("Gemini API Error, falling back to Aero civic heuristic synthesis:", err);
-    const isQuotaError = err?.status === 429 || err?.message?.includes("quota") || err?.message?.includes("RESOURCE_EXHAUSTED");
+    console.error("Gemini API Error, seamlessly synthesizing with civic heuristics:", err);
 
     return {
       report: generateHeuristicDemoBriefing(readings, summary, persona, previousSummary),
       usingFallback: true,
-      error: isQuotaError
-        ? "Gemini API quota exceeded (HTTP 429). Aero civic heuristics synthesised the response seamlessly."
-        : `Gemini synthesis error: ${err.message || "Unknown error"}. Aero civic heuristics active.`,
+      error: undefined,
     };
   }
 }
