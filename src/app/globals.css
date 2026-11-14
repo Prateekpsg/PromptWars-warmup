@@ -1,26 +1,263 @@
 @import "tailwindcss";
 
+/* ─── Design Tokens ─── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --aero-bg: #f8faff;
+  --aero-surface: #ffffff;
+  --aero-surface-2: #f1f4fb;
+  --aero-border: #e2e8f0;
+  --aero-border-strong: #cbd5e1;
+  --aero-text-primary: #0f172a;
+  --aero-text-secondary: #475569;
+  --aero-text-muted: #94a3b8;
+  --aero-accent: #4f46e5;
+  --aero-accent-light: #6366f1;
+  --aero-accent-bg: #eef2ff;
+  --aero-accent-border: #c7d2fe;
+  --aero-success: #10b981;
+  --aero-warning: #f59e0b;
+  --aero-danger: #ef4444;
+  --aero-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+  --aero-shadow-md: 0 4px 16px 0 rgb(79 70 229 / 0.08), 0 2px 8px -2px rgb(0 0 0 / 0.06);
+  --aero-shadow-lg: 0 8px 32px 0 rgb(79 70 229 / 0.12), 0 4px 16px -4px rgb(0 0 0 / 0.1);
+}
+
+.dark {
+  --aero-bg: #060b18;
+  --aero-surface: #0d1526;
+  --aero-surface-2: #111c30;
+  --aero-border: #1e2d4a;
+  --aero-border-strong: #2a3d5e;
+  --aero-text-primary: #f1f5f9;
+  --aero-text-secondary: #94a3b8;
+  --aero-text-muted: #475569;
+  --aero-accent: #6366f1;
+  --aero-accent-light: #818cf8;
+  --aero-accent-bg: #1e1b4b;
+  --aero-accent-border: #3730a3;
+  --aero-success: #10b981;
+  --aero-warning: #f59e0b;
+  --aero-danger: #f87171;
+  --aero-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+  --aero-shadow-md: 0 4px 16px 0 rgb(0 0 0 / 0.4), 0 2px 8px -2px rgb(0 0 0 / 0.3);
+  --aero-shadow-lg: 0 8px 32px 0 rgb(0 0 0 / 0.5), 0 4px 16px -4px rgb(0 0 0 / 0.4);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--aero-bg);
+  color: var(--aero-text-primary);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+::selection {
+  background-color: var(--aero-accent);
+  color: white;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--aero-border-strong);
+  border-radius: 100px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--aero-text-muted);
+}
+
+/* ─── Utility Classes ─── */
+
+/* Surface Cards */
+.aero-card {
+  background-color: var(--aero-surface);
+  border: 1px solid var(--aero-border);
+  border-radius: 1rem;
+  box-shadow: var(--aero-shadow-sm);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.aero-card:hover {
+  box-shadow: var(--aero-shadow-md);
+}
+
+.aero-card-elevated {
+  background-color: var(--aero-surface);
+  border: 1px solid var(--aero-border);
+  border-radius: 1.25rem;
+  box-shadow: var(--aero-shadow-md);
+}
+
+/* Gradient Badge */
+.aero-badge-live {
+  background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+  border: 1px solid #059669;
+  color: #34d399;
+}
+
+/* Button Base */
+.aero-btn-primary {
+  background: linear-gradient(135deg, #4f46e5 0%, #0ea5e9 100%);
+  color: white;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1.75rem;
+  font-weight: 700;
+  font-size: 0.875rem;
+  transition: opacity 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 14px 0 rgb(79 70 229 / 0.35);
+  cursor: pointer;
+}
+
+.aero-btn-primary:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px 0 rgb(79 70 229 / 0.45);
+}
+
+.aero-btn-primary:active:not(:disabled) {
+  transform: translateY(0px) scale(0.99);
+}
+
+.aero-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Input & Textarea */
+.aero-input {
+  background-color: var(--aero-surface-2);
+  border: 1px solid var(--aero-border);
+  border-radius: 0.75rem;
+  color: var(--aero-text-primary);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.75rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  resize: vertical;
+  outline: none;
+}
+
+.aero-input:focus {
+  border-color: var(--aero-accent);
+  box-shadow: 0 0 0 3px rgb(79 70 229 / 0.12);
+}
+
+.aero-input::placeholder {
+  color: var(--aero-text-muted);
+}
+
+/* Tab Pill */
+.aero-tab {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.625rem;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  color: var(--aero-text-secondary);
+  background: transparent;
+}
+
+.aero-tab:hover {
+  color: var(--aero-text-primary);
+  background-color: var(--aero-surface-2);
+}
+
+.aero-tab.active {
+  background-color: var(--aero-accent);
+  color: white;
+  box-shadow: 0 2px 8px rgb(79 70 229 / 0.3);
+}
+
+/* Section divider label */
+.aero-section-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--aero-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Stat Card */
+.aero-stat-card {
+  background-color: var(--aero-surface-2);
+  border: 1px solid var(--aero-border);
+  border-radius: 0.875rem;
+  padding: 1rem 1.25rem;
+  transition: border-color 0.15s ease;
+}
+
+.aero-stat-card:hover {
+  border-color: var(--aero-accent-border);
+}
+
+/* Severity pills */
+.sev-good    { background: #d1fae5; color: #065f46; }
+.sev-moderate{ background: #fef3c7; color: #92400e; }
+.sev-poor    { background: #fed7aa; color: #9a3412; }
+.sev-verypoor{ background: #fecaca; color: #991b1b; }
+.sev-severe  { background: #f5d0fe; color: #701a75; }
+
+.dark .sev-good    { background: #064e3b; color: #6ee7b7; }
+.dark .sev-moderate{ background: #451a03; color: #fcd34d; }
+.dark .sev-poor    { background: #431407; color: #fdba74; }
+.dark .sev-verypoor{ background: #450a0a; color: #fca5a5; }
+.dark .sev-severe  { background: #3b0764; color: #e879f9; }
+
+/* Priority pills */
+.pri-critical{ background: #fee2e2; color: #991b1b; }
+.pri-high    { background: #ffedd5; color: #9a3412; }
+.pri-moderate{ background: #fef9c3; color: #854d0e; }
+.pri-info    { background: #e0f2fe; color: #0c4a6e; }
+
+.dark .pri-critical{ background: #450a0a; color: #fca5a5; }
+.dark .pri-high    { background: #431407; color: #fdba74; }
+.dark .pri-moderate{ background: #3f2c0a; color: #fde68a; }
+.dark .pri-info    { background: #082f49; color: #7dd3fc; }
+
+/* Theme transition */
+.theme-transition {
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+/* Print styles */
+@media print {
+  header, footer, .no-print { display: none !important; }
+  body { background: white; color: black; }
+  .aero-card, .aero-card-elevated {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}
+
+/* Mobile-first responsive tweaks */
+@media (max-width: 640px) {
+  .aero-btn-primary { width: 100%; justify-content: center; }
 }
