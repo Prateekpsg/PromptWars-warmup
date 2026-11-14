@@ -28,6 +28,7 @@ export default function Home() {
   const [selectedPersona, setSelectedPersona] = useState<TargetPersona>("MUNICIPAL_WARD");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showRawTable, setShowRawTable] = useState(false);
+  const [isFetchingLive, setIsFetchingLive] = useState(false);
 
   // Parsed states
   const initialParsed = parseCSVData(SAMPLE_WARD_DATASET_CSV);
@@ -37,6 +38,29 @@ export default function Home() {
   const [usingFallback, setUsingFallback] = useState(false);
   const [apiWarning, setApiWarning] = useState<string | undefined>();
   const [showArchitectureModal, setShowArchitectureModal] = useState(false);
+
+  // Fetch real-time live atmospheric readings across Bhopal CAAQMS stations
+  const handleFetchLiveBhopal = async () => {
+    setIsFetchingLive(true);
+    setApiWarning(undefined);
+    try {
+      const res = await fetch("/api/live-bhopal");
+      const data = await res.json();
+      if (!res.ok || !data.csvData) {
+        throw new Error(data.error || "Failed to fetch live Bhopal data");
+      }
+      setCsvText(data.csvData);
+      const parsed = parseCSVData(data.csvData);
+      setReadings(parsed.readings);
+      setSummary(computeSummary(parsed.readings));
+      setApiWarning("✓ Successfully ingested real-time atmospheric sensor telemetry across 4 Bhopal stations (TT Nagar, Govindpura, Paryavaran Parisar, Idgah Hills).");
+    } catch (err: any) {
+      console.error("Live fetch error:", err);
+      setApiWarning("Failed to pull live station feed. Reverting to local dataset.");
+    } finally {
+      setIsFetchingLive(false);
+    }
+  };
 
   const handleAnalyze = async () => {
     setIsAnalyzing(true);
@@ -161,6 +185,8 @@ export default function Home() {
             setSelectedPersona={setSelectedPersona}
             showRawTable={showRawTable}
             setShowRawTable={setShowRawTable}
+            onFetchLiveBhopal={handleFetchLiveBhopal}
+            isFetchingLive={isFetchingLive}
           />
         </section>
 

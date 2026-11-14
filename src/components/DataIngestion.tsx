@@ -29,6 +29,8 @@ interface DataIngestionProps {
   setSelectedPersona: (p: TargetPersona) => void;
   showRawTable: boolean;
   setShowRawTable: (show: boolean) => void;
+  onFetchLiveBhopal?: () => void;
+  isFetchingLive?: boolean;
 }
 
 export const DataIngestion: React.FC<DataIngestionProps> = ({
@@ -42,6 +44,8 @@ export const DataIngestion: React.FC<DataIngestionProps> = ({
   setSelectedPersona,
   showRawTable,
   setShowRawTable,
+  onFetchLiveBhopal,
+  isFetchingLive,
 }) => {
   const [activeTab, setActiveTab] = useState<"current" | "previous">("current");
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -227,6 +231,18 @@ export const DataIngestion: React.FC<DataIngestionProps> = ({
           </div>
 
           <div className="flex items-center gap-2">
+            {/* Live Bhopal Feed Fetcher Button */}
+            {onFetchLiveBhopal && (
+              <button
+                onClick={onFetchLiveBhopal}
+                disabled={isFetchingLive}
+                className="text-xs px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold transition-all flex items-center gap-1.5 shadow-md shadow-emerald-900/30"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-300 animate-ping" />
+                {isFetchingLive ? "Fetching CPCB Live Feed..." : "Pull Live Bhopal CPCB Telemetry"}
+              </button>
+            )}
+
             <button
               onClick={() => setShowRawTable(!showRawTable)}
               className={`text-xs px-3 py-1.5 rounded-xl border transition-all flex items-center gap-1.5 ${
