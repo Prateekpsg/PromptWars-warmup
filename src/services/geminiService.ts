@@ -194,7 +194,7 @@ export async function generateBriefingWithGemini(
   previousSummary?: AirQualitySummary | null
 ): Promise<{ report: BriefingReport; usingFallback: boolean; error?: string }> {
   const apiKey = process.env.GEMINI_API_KEY;
-  const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+  const modelName = process.env.GEMINI_MODEL || "gemini-3.8-flash";
 
   // Check if API key exists
   if (!apiKey || apiKey.trim() === "") {
