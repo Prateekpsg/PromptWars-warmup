@@ -13,11 +13,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BhopalAIR | Civic Air Quality Briefing Studio by Prateek",
-  description: "Enterprise Civic Intelligence & Multi-Lingual Decision Directives for Bhopal and Urban Municipalities.",
+  title: "Aero | Enterprise Civic Air Quality Intelligence Studio",
+  description: "Enterprise Civic Intelligence & Multi-Lingual Decision Directives for Urban Municipalities and Institutions.",
+  icons: {
+    icon: "/logo-aero.svg",
+  },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"

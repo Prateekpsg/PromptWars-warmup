@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 48" fill="none">
+  <defs>
+    <linearGradient id="aero-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="50%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+    <linearGradient id="cloud-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#818CF8" />
+      <stop offset="100%" stop-color="#0284C7" />
+    </linearGradient>
+  </defs>
+  <!-- Icon Mark: Modern aerodynamic wind/pulse symbol -->
+  <rect x="4" y="6" width="36" height="36" rx="10" fill="url(#cloud-grad)" />
+  <path d="M12 21 C14 18, 18 18, 20 21 C22 24, 26 24, 28 21" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" fill="none" />
+  <path d="M15 26 C17 23, 21 23, 23 26 C25 29, 29 29, 31 26" stroke="#A5F3FC" stroke-width="2.5" stroke-linecap="round" fill="none" />
+  <circle cx="32" cy="15" r="2.5" fill="#34D399" />
+
+  <!-- Typography: AERO with gradient + badge -->
+  <text x="48" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="900" letter-spacing="0.1em" fill="url(#aero-grad)">
+    AERO
+  </text>
+  <rect x="124" y="16" width="30" height="15" rx="4" fill="#312E81" />
+  <text x="129" y="27" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="700" letter-spacing="0.05em" fill="#A5B4FC">
+    PROD
+  </text>
+</svg>
